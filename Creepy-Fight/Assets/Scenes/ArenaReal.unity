@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 181041910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 1.24, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -423,6 +423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterController
   opponent: {fileID: 918602893}
+  idleSprite: {fileID: 6258452161489573609, guid: 4a3fc595eed8bb840b3839d5734e03f2, type: 3}
+  walkingSprite: {fileID: -380583658385312847, guid: 456b7556b34c9224f9af089d736f6805, type: 3}
   moveSpeed: 7
   jumpForce: 8
   groundLayer:

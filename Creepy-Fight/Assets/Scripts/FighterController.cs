@@ -15,7 +15,12 @@ public class FighterController : MonoBehaviour
     [Header("Componentes")]
     private Rigidbody2D rb;
     private BoxCollider2D bodyCollider;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform opponent; // Arraste o oponente aqui no Inspector
+
+    [Header("Sprites (Visual Direto)")]
+    [SerializeField] private Sprite idleSprite;    // Imagem do Standby
+    [SerializeField] private Sprite walkingSprite; // Imagem/Frame de Andar
 
     [Header("Atributos de Movimento")]
     [SerializeField] private float moveSpeed = 7f;
@@ -27,7 +32,7 @@ public class FighterController : MonoBehaviour
     [Header("Estado Atual")]
     public FighterState currentState = FighterState.Idle;
 
-    // Configuração do Colisor (para o Agachamento)
+    // Configuração do Colisor
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
     private bool isGrounded;
@@ -37,6 +42,7 @@ public class FighterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (bodyCollider != null)
         {
@@ -53,19 +59,19 @@ public class FighterController : MonoBehaviour
 
     void Update()
     {
-        // Se estiver apanhando ou atacando, bloqueia os comandos de movimento
+        // Se estiver apanhando ou atacando, bloqueia os comandos
         if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
             return;
 
         CheckGrounded();
         GetInputs();
         UpdateStateAndCollider();
+        UpdateSpriteDirectly();
         FlipFacingDirection();
     }
 
     void FixedUpdate()
     {
-        // Se estiver apanhando ou atacando, não aplica movimento do teclado
         if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
             return;
 
@@ -76,8 +82,8 @@ public class FighterController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Pulo
-        if (Input.GetButtonDown("Jump") && isGrounded && currentState != FighterState.Crouching)
+        // Pulo agora ativado com a tecla W
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded && currentState != FighterState.Crouching)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             currentState = FighterState.Jumping;
@@ -86,14 +92,14 @@ public class FighterController : MonoBehaviour
 
     private void Move()
     {
-        // Se estiver agachado no chão, o lutador não deve andar
+        // Se estiver agachado no chão, não anda
         if (currentState == FighterState.Crouching && isGrounded)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
         }
 
-        // Movimento arcade direto e responsivo
+        // Movimento arcade direto
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -111,7 +117,7 @@ public class FighterController : MonoBehaviour
         {
             currentState = FighterState.Crouching;
 
-            // Reduz o colisor pela metade para esquivar de golpes altos
+            // Reduz o colisor pela metade
             if (bodyCollider != null)
             {
                 bodyCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.5f);
@@ -129,6 +135,27 @@ public class FighterController : MonoBehaviour
             else
             {
                 currentState = FighterState.Idle;
+            }
+        }
+    }
+
+    private void UpdateSpriteDirectly()
+    {
+        if (spriteRenderer == null) return;
+
+        // Troca de imagem com base no movimento no chão
+        if (currentState == FighterState.Walking && isGrounded)
+        {
+            if (walkingSprite != null)
+            {
+                spriteRenderer.sprite = walkingSprite;
+            }
+        }
+        else if (currentState == FighterState.Idle && isGrounded)
+        {
+            if (idleSprite != null)
+            {
+                spriteRenderer.sprite = idleSprite;
             }
         }
     }
@@ -154,7 +181,6 @@ public class FighterController : MonoBehaviour
     {
         if (opponent == null) return;
 
-        // Se o oponente estiver à esquerda e estarmos olhando para a direita (ou vice-versa)
         if (opponent.position.x < transform.position.x && transform.localScale.x > 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
@@ -165,7 +191,6 @@ public class FighterController : MonoBehaviour
         }
     }
 
-    // Desenha a esfera do GroundCheck na aba Scene para ajudar no ajuste visual
     private void OnDrawGizmosSelected()
     {
         if (groundCheck != null)
