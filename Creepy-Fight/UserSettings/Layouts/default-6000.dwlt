@@ -761,12 +761,17 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -40234
-      - m_Data: -39574
+      - m_Data: -43868
+      - m_Data: -43866
+      - m_Data: -40596
+      - m_Data: -40532
+      - m_Data: -40496
+      - m_Data: -40268
+      - m_Data: -39614
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: slenderman neutro
-        m_OriginalName: slenderman neutro
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
@@ -774,10 +779,10 @@ MonoBehaviour:
           width: 0
           height: 0
         m_UserData:
-          m_Data: 56912
+          m_Data: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 10}
@@ -1425,9 +1430,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 1.370036, y: 0.09186208, z: 0.030006427}
+    m_Target: {x: -1.607289, y: 6.7727633, z: -0.05626727}
     speed: 2
-    m_Value: {x: 1.3217188, y: 0.1539842, z: 0.033020478}
+    m_Value: {x: -1.607289, y: 6.7727633, z: -0.05626727}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1477,9 +1482,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 6.999352
+    m_Target: 15.627197
     speed: 2
-    m_Value: 6.6979446
+    m_Value: 15.627197
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1617,7 +1622,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Scripts
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1627,7 +1632,7 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 50
   m_LastFolders:
-  - Assets
+  - Assets/Scripts
   m_LastFoldersGridSize: 50
   m_LastProjectPath: C:\Users\jvtro\OneDrive\Documentos\GitHub\Creepy-Fight\Creepy-Fight
   m_LockTracker:
@@ -1636,12 +1641,12 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 49502
+    - m_Data: 49650
     m_LastClickedID:
-      m_Data: 49502
+      m_Data: 49650
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 49502
+    - m_Data: 49512
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

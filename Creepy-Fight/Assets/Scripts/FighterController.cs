@@ -68,6 +68,16 @@ public class FighterController : MonoBehaviour
         UpdateStateAndCollider();
         UpdateSpriteDirectly();
         FlipFacingDirection();
+
+        // TESTE DE DANO: Aperte a tecla J para tomar 10 de dano e testar a barra
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            HealthController health = GetComponent<HealthController>();
+            if (health != null)
+            {
+                health.TakeDamage(10f);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -82,7 +92,7 @@ public class FighterController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Pulo agora ativado com a tecla W
+        // Pulo com a tecla W
         if (Input.GetKeyDown(KeyCode.W) && isGrounded && currentState != FighterState.Crouching)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
