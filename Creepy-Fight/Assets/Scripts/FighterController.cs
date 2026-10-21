@@ -21,6 +21,7 @@ public class FighterController : MonoBehaviour
     [Header("Sprites (Visual Direto)")]
     [SerializeField] private Sprite idleSprite;    // Imagem do Standby
     [SerializeField] private Sprite walkingSprite; // Imagem/Frame de Andar
+    Animator anim;
 
     [Header("Atributos de Movimento")]
     [SerializeField] private float moveSpeed = 7f;
@@ -40,6 +41,7 @@ public class FighterController : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -110,7 +112,17 @@ public class FighterController : MonoBehaviour
         }
 
         // Movimento arcade direto
+        
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+        if(rb.linearVelocity != Vector2.zero)
+        {
+            anim.SetBool("Andando", true);
+        }
+        else
+        {
+            anim.SetBool("Andando", false);
+        }
+        
     }
 
     private void UpdateStateAndCollider()
