@@ -70,6 +70,7 @@ public class FighterController : MonoBehaviour
         UpdateStateAndCollider();
         UpdateSpriteDirectly();
         FlipFacingDirection();
+        UpdateAnimatorParameters(); // Atualiza os parâmetros do Animator por frame
 
         // TESTE DE DANO: Aperte a tecla J para tomar 10 de dano e testar a barra
         if (Input.GetKeyDown(KeyCode.J))
@@ -112,9 +113,10 @@ public class FighterController : MonoBehaviour
         }
 
         // Movimento arcade direto
-        
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
-        if(rb.linearVelocity != Vector2.zero)
+
+        // Parâmetro de andar ensinado pelo professor
+        if (rb.linearVelocity.x != 0 && isGrounded)
         {
             anim.SetBool("Andando", true);
         }
@@ -122,7 +124,18 @@ public class FighterController : MonoBehaviour
         {
             anim.SetBool("Andando", false);
         }
-        
+    }
+
+    // Novo método para controlar os parâmetros de Pulo e Agachado no Animator
+    private void UpdateAnimatorParameters()
+    {
+        if (anim == null) return;
+
+        // Se não estiver no chão, ativa o parâmetro "Pulando"
+        anim.SetBool("Pulando", !isGrounded);
+
+        // Se estiver agachado, ativa o parâmetro "Agachado"
+        anim.SetBool("Agachado", currentState == FighterState.Crouching && isGrounded);
     }
 
     private void UpdateStateAndCollider()
@@ -165,7 +178,7 @@ public class FighterController : MonoBehaviour
     {
         if (spriteRenderer == null) return;
 
-        // Troca de imagem com base no movimento no chão
+        // Troca de imagem com base no movimento no chão (caso ainda use sprites diretos para idle/andar)
         if (currentState == FighterState.Walking && isGrounded)
         {
             if (walkingSprite != null)
