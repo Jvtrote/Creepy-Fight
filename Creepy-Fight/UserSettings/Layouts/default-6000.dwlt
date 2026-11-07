@@ -728,11 +728,11 @@ MonoBehaviour:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs:
-      - m_Data: 47942
+      - m_Data: 47988
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -40644
+      - m_Data: -40610
       - m_Data: -39848
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1533,7 +1533,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - "Assets/anima\xE7\xF5es/slenderman anima\xE7\xF5es"
+    - Assets/Scripts
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1543,7 +1543,7 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 44
   m_LastFolders:
-  - "Assets/anima\xE7\xF5es/slenderman anima\xE7\xF5es"
+  - Assets/Scripts
   m_LastFoldersGridSize: 44
   m_LastProjectPath: C:\Users\jvtro\OneDrive\Documentos\GitHub\Creepy-Fight\Creepy-Fight
   m_LockTracker:
@@ -1552,9 +1552,9 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 53948
+    - m_Data: 49794
     m_LastClickedID:
-      m_Data: 53948
+      m_Data: 49794
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 49654
@@ -1618,8 +1618,8 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 47942
-    m_LastClickedInstanceID: 47942
+    - m_Data: 47988
+    m_LastClickedInstanceID: 47988
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs:
     - m_Data: 49452
@@ -1650,7 +1650,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 67.400024}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 44
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 157
@@ -1886,4 +1886,4 @@ MonoBehaviour:
     m_DynamicPanelBehavior: 0
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 47942
+  m_LastSelectedObjectID: 47988

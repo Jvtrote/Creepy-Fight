@@ -9,6 +9,7 @@ public class FighterController : MonoBehaviour
         Crouching,
         Jumping,
         Attacking,
+        Blocking,
         Hitstun
     }
 
@@ -38,6 +39,7 @@ public class FighterController : MonoBehaviour
     private Vector2 originalColliderOffset;
     private bool isGrounded;
     private float horizontalInput;
+    private bool isBlocking;
 
     void Start()
     {
@@ -61,7 +63,7 @@ public class FighterController : MonoBehaviour
 
     void Update()
     {
-        // Se estiver apanhando ou atacando, bloqueia os comandos
+        // Se estiver apanhando ou atacando gravemente, trava o controle livre
         if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
             return;
 
@@ -70,16 +72,12 @@ public class FighterController : MonoBehaviour
         UpdateStateAndCollider();
         UpdateSpriteDirectly();
         FlipFacingDirection();
-        UpdateAnimatorParameters(); // Atualiza os parâmetros do Animator por frame
+        UpdateAnimatorParameters(); // Atualiza os parâmetros e triggers do Animator
 
-        // TESTE DE DANO: Aperte a tecla J para tomar 10 de dano e testar a barra
+        // TESTE DE DANO: Aperte a tecla J para tomar dano, tocar a animação e testar a barra
         if (Input.GetKeyDown(KeyCode.J))
         {
-            HealthController health = GetComponent<HealthController>();
-            if (health != null)
-            {
-                health.TakeDamage(10f);
-            }
+            TriggerDamageTest(10f);
         }
     }
 
@@ -105,8 +103,8 @@ public class FighterController : MonoBehaviour
 
     private void Move()
     {
-        // Se estiver agachado no chão, não anda
-        if (currentState == FighterState.Crouching && isGrounded)
+        // Se estiver bloqueando ou agachado no chão, não anda
+        if (isBlocking || (currentState == FighterState.Crouching && isGrounded))
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
@@ -126,16 +124,71 @@ public class FighterController : MonoBehaviour
         }
     }
 
-    // Novo método para controlar os parâmetros de Pulo e Agachado no Animator
+    // Lógica para detectar se o jogador está segurando para trás do oponente (Bloqueio)
+    private void CheckBlocking()
+    {
+        isBlocking = false;
+
+        if (isGrounded && opponent != null)
+        {
+            // Se o oponente está à direita (opponent.position.x > transform.position.x)
+            // e o jogador aperta para a esquerda (horizontalInput < 0) -> Estará bloqueando!
+            if (opponent.position.x > transform.position.x && horizontalInput < -0.1f)
+            {
+                isBlocking = true;
+            }
+            // Se o oponente está à esquerda e o jogador aperta para a direita -> Estará bloqueando!
+            else if (opponent.position.x < transform.position.x && horizontalInput > 0.1f)
+            {
+                isBlocking = true;
+            }
+        }
+    }
+
     private void UpdateAnimatorParameters()
     {
         if (anim == null) return;
+
+        CheckBlocking();
 
         // Se não estiver no chão, ativa o parâmetro "Pulando"
         anim.SetBool("Pulando", !isGrounded);
 
         // Se estiver agachado, ativa o parâmetro "Agachado"
         anim.SetBool("Agachado", currentState == FighterState.Crouching && isGrounded);
+
+        // Se estiver bloqueando, ativa o parâmetro "Bloqueando"
+        anim.SetBool("Bloqueando", isBlocking);
+    }
+
+    // Método público que o HealthController ou o sistema de combate pode chamar ao levar dano
+    public void TriggerDamageResponse()
+    {
+        if (anim != null)
+        {
+            // Dispara o Trigger de dano no Animator configurado pelo professor
+            anim.SetTrigger("Dano");
+        }
+    }
+
+    private void TriggerDamageTest(float damageAmount)
+    {
+        // Se estiver bloqueando, o dano é evitado ou reduzido
+        if (isBlocking)
+        {
+            Debug.Log(gameObject.name + " bloqueou! Dano evitado.");
+            return;
+        }
+
+        // Toca a animação de Trigger de Dano
+        TriggerDamageResponse();
+
+        // Subtrai a vida pelo HealthController
+        HealthController health = GetComponent<HealthController>();
+        if (health != null)
+        {
+            health.TakeDamage(damageAmount);
+        }
     }
 
     private void UpdateStateAndCollider()
@@ -143,6 +196,13 @@ public class FighterController : MonoBehaviour
         if (!isGrounded)
         {
             currentState = FighterState.Jumping;
+            RestoreCollider();
+            return;
+        }
+
+        if (isBlocking)
+        {
+            currentState = FighterState.Blocking;
             RestoreCollider();
             return;
         }
@@ -178,7 +238,6 @@ public class FighterController : MonoBehaviour
     {
         if (spriteRenderer == null) return;
 
-        // Troca de imagem com base no movimento no chão (caso ainda use sprites diretos para idle/andar)
         if (currentState == FighterState.Walking && isGrounded)
         {
             if (walkingSprite != null)
