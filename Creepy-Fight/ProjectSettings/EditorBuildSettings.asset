@@ -6,6 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: e38b716e0c11a174d99a05fb7df4123b
+  - enabled: 1
+    path: Assets/Scenes/Modos.unity
+    guid: 9f3b6c3a9eb28aa498b69f2bba5cde46
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerConfig.unity
+    guid: bc1e52fb618f4d74e89a2dd1d8a91bcb
+  - enabled: 1
+    path: Assets/Scenes/SelecaoPersonagem.unity
+    guid: d8ecbfb21853a3b4eb0e373f6eec5f9e
+  - enabled: 1
+    path: Assets/Scenes/Arena2.unity
+    guid: e2fac9fa04e3e4a47857ada7263c48fb
+  - enabled: 0
     path: Assets/Scenes/Arena.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
