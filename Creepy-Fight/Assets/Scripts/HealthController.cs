@@ -8,7 +8,7 @@ public class HealthController : MonoBehaviour
     private float currentHealth;
 
     [Header("Interface (UI)")]
-    [SerializeField] private Slider healthSlider;
+    public Slider healthSlider;
 
     void Start()
     {
