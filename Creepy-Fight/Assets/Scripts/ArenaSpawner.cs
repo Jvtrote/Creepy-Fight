@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArenaSpawner : MonoBehaviour
 {
-    [Header("Prefabs dos Lutadores (na mesma ordem dos botões: 0, 1, 2, 3)")]
+    [Header("Prefabs dos Lutadores (0: Jeff, 1: Rake, 2: Sonic.exe, 3: Slenderman)")]
     [SerializeField] private GameObject[] fighterPrefabs;
 
     [Header("Pontos de Posição na Arena")]
@@ -14,9 +14,12 @@ public class ArenaSpawner : MonoBehaviour
     [SerializeField] private Slider player1HealthSlider;
     [SerializeField] private Slider player2HealthSlider;
 
+    [Header("Gerenciador da Partida")]
+    [SerializeField] private MatchManager matchManager;
+
     void Start()
     {
-        // Garante que o índice não estoure o tamanho da lista caso você ainda não tenha todos os 4 prefabs
+        // Garante que o índice escolhido exista dentro do tamanho da lista
         int p1Index = Mathf.Clamp(GameData.player1CharacterIndex, 0, fighterPrefabs.Length - 1);
         int p2Index = Mathf.Clamp(GameData.player2CharacterIndex, 0, fighterPrefabs.Length - 1);
 
@@ -24,7 +27,14 @@ public class ArenaSpawner : MonoBehaviour
         GameObject p1 = Instantiate(fighterPrefabs[p1Index], player1Spawn.position, Quaternion.identity);
         GameObject p2 = Instantiate(fighterPrefabs[p2Index], player2Spawn.position, Quaternion.identity);
 
-        // Conecta as barras de vida
+        // Liga o oponente ao Player 1 para ele virar automaticamente na direção certa
+        FighterController p1Controller = p1.GetComponent<FighterController>();
+        if (p1Controller != null)
+        {
+            p1Controller.opponent = p2.transform;
+        }
+
+        // Conecta as barras de vida aos respectivos lutadores
         SetupHealth(p1, player1HealthSlider);
         SetupHealth(p2, player2HealthSlider);
 
@@ -34,6 +44,12 @@ public class ArenaSpawner : MonoBehaviour
         {
             p2Controller.enabled = false;
         }
+
+        // Registra os dois lutadores no MatchManager para monitorar K.O. e fim de round
+        if (matchManager != null)
+        {
+            matchManager.RegisterFighters(p1, p2);
+        }
     }
 
     private void SetupHealth(GameObject fighter, Slider slider)
@@ -41,7 +57,6 @@ public class ArenaSpawner : MonoBehaviour
         HealthController health = fighter.GetComponent<HealthController>();
         if (health != null && slider != null)
         {
-            // Se healthSlider for private no seu HealthController, mude para public no HealthController.cs
             health.healthSlider = slider;
             slider.maxValue = health.maxHealth;
             slider.value = health.maxHealth;

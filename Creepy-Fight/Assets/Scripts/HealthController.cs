@@ -5,7 +5,7 @@ public class HealthController : MonoBehaviour
 {
     [Header("Configuração de Vida")]
     public float maxHealth = 100f;
-    private float currentHealth;
+    public float currentHealth;
 
     [Header("Interface (UI)")]
     public Slider healthSlider;

@@ -6,6 +6,7 @@ public class MatchTimer : MonoBehaviour
     [Header("Configuração do Timer")]
     [SerializeField] private float startingTime = 99f;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private MatchManager matchManager;
 
     private float currentTime;
     private bool isRunning = true;
@@ -42,15 +43,17 @@ public class MatchTimer : MonoBehaviour
     {
         if (timerText == null) return;
 
-        // Mathf.CeilToInt mantém "99" no início e mostra "1" até o último segundo inteiro
         int secondsLeft = Mathf.CeilToInt(currentTime);
         timerText.text = secondsLeft.ToString("00");
     }
 
     private void OnTimeUp()
     {
-        Debug.Log("Tempo esgotado! Hora de comparar o HP dos lutadores.");
-        // Aqui depois você pode chamar a lógica de fim de round / vitória por tempo
+        Debug.Log("Tempo esgotado!");
+        if (matchManager != null)
+        {
+            matchManager.EndMatch("TEMPO ESGOTADO!");
+        }
     }
 
     public void StopTimer()

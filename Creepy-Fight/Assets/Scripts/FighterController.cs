@@ -17,7 +17,7 @@ public class FighterController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D bodyCollider;
     private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform opponent; // Arraste o oponente aqui no Inspector
+    public Transform opponent; // Arraste o oponente aqui no Inspector
 
     [Header("Sprites (Visual Direto)")]
     [SerializeField] private Sprite idleSprite;    // Imagem do Standby
