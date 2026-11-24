@@ -13,25 +13,32 @@ public class MatchManager : MonoBehaviour
     private HealthController p2Health;
     private FighterController p1Controller;
     private bool matchEnded = false;
+    private bool fightersReady = false;
+    private float elapsedAfterSpawn = 0f;
 
-    // Chamado pelo ArenaSpawner assim que os lutadores nascem
     public void RegisterFighters(GameObject p1, GameObject p2)
     {
         p1Health = p1.GetComponent<HealthController>();
         p2Health = p2.GetComponent<HealthController>();
         p1Controller = p1.GetComponent<FighterController>();
+        fightersReady = true;
+        elapsedAfterSpawn = 0f;
     }
 
     void Update()
     {
-        if (matchEnded || p1Health == null || p2Health == null) return;
+        if (matchEnded || !fightersReady || p1Health == null || p2Health == null) return;
 
-        // Verifica se alguém zerou a vida
-        if (p1Health.currentHealth <= 0)
+        // Pequena janela de 0.2s após o spawn para todos os Start() e Sliders terminarem de rodar
+        elapsedAfterSpawn += Time.deltaTime;
+        if (elapsedAfterSpawn < 0.2f) return;
+
+        // Só considera K.O. se a vida máxima já estiver válida e a atual tiver chegado a zero
+        if (p1Health.maxHealth > 0 && p1Health.currentHealth <= 0)
         {
             EndMatch("DERROTA - K.O.");
         }
-        else if (p2Health.currentHealth <= 0)
+        else if (p2Health.maxHealth > 0 && p2Health.currentHealth <= 0)
         {
             EndMatch("VITÓRIA - K.O.");
         }
@@ -42,13 +49,9 @@ public class MatchManager : MonoBehaviour
         if (matchEnded) return;
         matchEnded = true;
 
-        // Para o cronômetro
         if (matchTimer != null) matchTimer.StopTimer();
-
-        // Trava o controle do jogador para não continuar batendo depois do K.O.
         if (p1Controller != null) p1Controller.enabled = false;
 
-        // Mostra o texto de resultado e o botão de voltar
         if (resultText != null)
         {
             resultText.text = message;
@@ -61,9 +64,8 @@ public class MatchManager : MonoBehaviour
         }
     }
 
-    // Conecte essa função no OnClick do BtnVoltarMenu
     public void BackToMenu()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MainMenu");
     }
 }
