@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FighterController : MonoBehaviour
@@ -19,10 +20,23 @@ public class FighterController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Transform opponent; // Arraste o oponente aqui no Inspector
 
+    [Header("Combate e Hitbox")]
+    [SerializeField] private GameObject attackHitbox;
+    [SerializeField] private string atk1Trigger = "Atk1";
+    [SerializeField] private string atk2Trigger = "Atk2";
+    [SerializeField] private string atk3Trigger = "Atk3";
+    [SerializeField] private float comboResetWindow = 0.85f;
+    [SerializeField] private float hitboxStartDelay = 0.1f;
+    [SerializeField] private float hitboxActiveDuration = 0.2f;
+    [SerializeField] private float attackRecoveryTime = 0.25f;
+    [SerializeField] private float atk1Damage = 10f;
+    [SerializeField] private float atk2Damage = 15f;
+    [SerializeField] private float atk3Damage = 25f;
+
     [Header("Sprites (Visual Direto)")]
     [SerializeField] private Sprite idleSprite;    // Imagem do Standby
     [SerializeField] private Sprite walkingSprite; // Imagem/Frame de Andar
-    Animator anim;
+    private Animator anim;
 
     [Header("Atributos de Movimento")]
     [SerializeField] private float moveSpeed = 7f;
@@ -41,7 +55,12 @@ public class FighterController : MonoBehaviour
     private float horizontalInput;
     private bool isBlocking;
 
-    void Start()
+    // Controle de combo (1 -> 2 -> 3)
+    private int comboStep = 0;
+    private float lastAttackTime = -999f;
+    private Coroutine attackRoutine;
+
+    void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -54,16 +73,20 @@ public class FighterController : MonoBehaviour
             originalColliderOffset = bodyCollider.offset;
         }
 
-        // Trava a rotação Z para o lutador não capotar
         if (rb != null)
         {
             rb.freezeRotation = true;
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.SetActive(false);
         }
     }
 
     void Update()
     {
-        // Se estiver apanhando ou atacando gravemente, trava o controle livre
+        // Se estiver apanhando ou atacando, bloqueia movimentação livre
         if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
             return;
 
@@ -72,19 +95,20 @@ public class FighterController : MonoBehaviour
         UpdateStateAndCollider();
         UpdateSpriteDirectly();
         FlipFacingDirection();
-        UpdateAnimatorParameters(); // Atualiza os parâmetros e triggers do Animator
-
-        // TESTE DE DANO: Aperte a tecla J para tomar dano, tocar a animação e testar a barra
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            TriggerDamageTest(10f);
-        }
+        UpdateAnimatorParameters();
     }
 
     void FixedUpdate()
     {
-        if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
+        if (currentState == FighterState.Hitstun)
             return;
+
+        if (currentState == FighterState.Attacking)
+        {
+            // Mantém velocidade horizontal zerada durante o golpe para não deslizar
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            return;
+        }
 
         Move();
     }
@@ -99,50 +123,135 @@ public class FighterController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             currentState = FighterState.Jumping;
         }
+
+        // Ataque com a tecla J (sequência 1 -> 2 -> 3)
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartComboAttack();
+        }
+    }
+
+    private void StartComboAttack()
+    {
+        // Reinicia o combo se passou do tempo limite ou se já completou o 3º golpe
+        if (Time.time - lastAttackTime > comboResetWindow || comboStep >= 3)
+        {
+            comboStep = 0;
+        }
+
+        comboStep++;
+        lastAttackTime = Time.time;
+
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+        }
+
+        attackRoutine = StartCoroutine(ExecuteAttack(comboStep));
+    }
+
+    private IEnumerator ExecuteAttack(int step)
+    {
+        currentState = FighterState.Attacking;
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+        if (anim != null)
+        {
+            anim.SetBool("Andando", false);
+
+            if (step == 1 && !string.IsNullOrEmpty(atk1Trigger))
+                anim.SetTrigger(atk1Trigger);
+            else if (step == 2 && !string.IsNullOrEmpty(atk2Trigger))
+                anim.SetTrigger(atk2Trigger);
+            else if (step >= 3 && !string.IsNullOrEmpty(atk3Trigger))
+                anim.SetTrigger(atk3Trigger);
+        }
+
+        // Configura o dano correspondente ao golpe da sequência
+        AttackHitbox hitboxScript = null;
+        if (attackHitbox != null)
+        {
+            hitboxScript = attackHitbox.GetComponent<AttackHitbox>();
+            if (hitboxScript != null)
+            {
+                float dmg = (step == 1) ? atk1Damage : (step == 2) ? atk2Damage : atk3Damage;
+                hitboxScript.SetDamage(dmg);
+            }
+        }
+
+        // Espera o golpe chegar no frame de impacto
+        if (hitboxStartDelay > 0f)
+        {
+            yield return new WaitForSeconds(hitboxStartDelay);
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.SetActive(true);
+        }
+
+        if (hitboxActiveDuration > 0f)
+        {
+            yield return new WaitForSeconds(hitboxActiveDuration);
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.SetActive(false);
+        }
+
+        if (attackRecoveryTime > 0f)
+        {
+            yield return new WaitForSeconds(attackRecoveryTime);
+        }
+
+        currentState = isGrounded ? FighterState.Idle : FighterState.Jumping;
+        attackRoutine = null;
     }
 
     private void Move()
     {
-        // Se estiver bloqueando ou agachado no chão, não anda
         if (isBlocking || (currentState == FighterState.Crouching && isGrounded))
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
         }
 
-        // Movimento arcade direto
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
 
-        // Parâmetro de andar ensinado pelo professor
-        if (rb.linearVelocity.x != 0 && isGrounded)
+        if (anim != null)
         {
-            anim.SetBool("Andando", true);
-        }
-        else
-        {
-            anim.SetBool("Andando", false);
+            if (rb.linearVelocity.x != 0 && isGrounded)
+            {
+                anim.SetBool("Andando", true);
+            }
+            else
+            {
+                anim.SetBool("Andando", false);
+            }
         }
     }
 
-    // Lógica para detectar se o jogador está segurando para trás do oponente (Bloqueio)
     private void CheckBlocking()
     {
         isBlocking = false;
 
         if (isGrounded && opponent != null)
         {
-            // Se o oponente está à direita (opponent.position.x > transform.position.x)
-            // e o jogador aperta para a esquerda (horizontalInput < 0) -> Estará bloqueando!
             if (opponent.position.x > transform.position.x && horizontalInput < -0.1f)
             {
                 isBlocking = true;
             }
-            // Se o oponente está à esquerda e o jogador aperta para a direita -> Estará bloqueando!
             else if (opponent.position.x < transform.position.x && horizontalInput > 0.1f)
             {
                 isBlocking = true;
             }
         }
+    }
+
+    public bool IsBlocking()
+    {
+        return isBlocking;
     }
 
     private void UpdateAnimatorParameters()
@@ -151,43 +260,16 @@ public class FighterController : MonoBehaviour
 
         CheckBlocking();
 
-        // Se não estiver no chão, ativa o parâmetro "Pulando"
         anim.SetBool("Pulando", !isGrounded);
-
-        // Se estiver agachado, ativa o parâmetro "Agachado"
         anim.SetBool("Agachado", currentState == FighterState.Crouching && isGrounded);
-
-        // Se estiver bloqueando, ativa o parâmetro "Bloqueando"
         anim.SetBool("Bloqueando", isBlocking);
     }
 
-    // Método público que o HealthController ou o sistema de combate pode chamar ao levar dano
     public void TriggerDamageResponse()
     {
         if (anim != null)
         {
-            // Dispara o Trigger de dano no Animator configurado pelo professor
             anim.SetTrigger("Dano");
-        }
-    }
-
-    private void TriggerDamageTest(float damageAmount)
-    {
-        // Se estiver bloqueando, o dano é evitado ou reduzido
-        if (isBlocking)
-        {
-            Debug.Log(gameObject.name + " bloqueou! Dano evitado.");
-            return;
-        }
-
-        // Toca a animação de Trigger de Dano
-        TriggerDamageResponse();
-
-        // Subtrai a vida pelo HealthController
-        HealthController health = GetComponent<HealthController>();
-        if (health != null)
-        {
-            health.TakeDamage(damageAmount);
         }
     }
 
@@ -207,12 +289,10 @@ public class FighterController : MonoBehaviour
             return;
         }
 
-        // Agachamento (segurando para baixo ou 'S')
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
             currentState = FighterState.Crouching;
 
-            // Reduz o colisor pela metade
             if (bodyCollider != null)
             {
                 bodyCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.5f);
@@ -236,21 +316,17 @@ public class FighterController : MonoBehaviour
 
     private void UpdateSpriteDirectly()
     {
+        // Só força sprite manual quando não estiver atacando e não houver Animator ativo
+        if (currentState == FighterState.Attacking || anim != null) return;
         if (spriteRenderer == null) return;
 
-        if (currentState == FighterState.Walking && isGrounded)
+        if (currentState == FighterState.Walking && isGrounded && walkingSprite != null)
         {
-            if (walkingSprite != null)
-            {
-                spriteRenderer.sprite = walkingSprite;
-            }
+            spriteRenderer.sprite = walkingSprite;
         }
-        else if (currentState == FighterState.Idle && isGrounded)
+        else if (currentState == FighterState.Idle && isGrounded && idleSprite != null)
         {
-            if (idleSprite != null)
-            {
-                spriteRenderer.sprite = idleSprite;
-            }
+            spriteRenderer.sprite = idleSprite;
         }
     }
 
@@ -275,13 +351,18 @@ public class FighterController : MonoBehaviour
     {
         if (opponent == null) return;
 
-        if (opponent.position.x < transform.position.x && transform.localScale.x > 0)
+        bool shouldFaceLeft = opponent.position.x < transform.position.x;
+        float absScaleX = Mathf.Abs(transform.localScale.x);
+
+        // Mantém sempre o mesmo módulo de escala (nunca encolhe nem estica)
+        transform.localScale = new Vector3(shouldFaceLeft ? -absScaleX : absScaleX, transform.localScale.y, transform.localScale.z);
+
+        // Garante que a hitbox acompanhe a frente do lutador
+        if (attackHitbox != null)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (opponent.position.x > transform.position.x && transform.localScale.x < 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
+            Vector3 hitboxPos = attackHitbox.transform.localPosition;
+            hitboxPos.x = Mathf.Abs(hitboxPos.x) * (shouldFaceLeft ? -1f : 1f);
+            attackHitbox.transform.localPosition = hitboxPos;
         }
     }
 

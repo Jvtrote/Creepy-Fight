@@ -1,0 +1,494 @@
+fileFormatVersion: 2
+guid: 51e6cb9e223ff9441a8a3f94f190ef8e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1917056136249046868
+    second: jeff the killer neutro_0
+  - first:
+      213: 1343434792091915895
+    second: jeff the killer neutro_1
+  - first:
+      213: -8366510246321429648
+    second: jeff the killer neutro_2
+  - first:
+      213: 5270799518847960777
+    second: jeff the killer neutro_3
+  - first:
+      213: 5734836077634938480
+    second: jeff the killer neutro_4
+  - first:
+      213: -3626352295680200980
+    second: jeff the killer neutro_5
+  - first:
+      213: -3328902559309117621
+    second: jeff the killer neutro_6
+  - first:
+      213: 8770922738191577975
+    second: jeff the killer neutro_7
+  - first:
+      213: 3627225942504329870
+    second: jeff the killer neutro_8
+  - first:
+      213: -2764066912624676071
+    second: jeff the killer neutro_9
+  - first:
+      213: 4092172157513375374
+    second: jeff the killer neutro_10
+  - first:
+      213: -2045816373338629064
+    second: jeff the killer neutro_11
+  - first:
+      213: 6059465270205818687
+    second: jeff the killer neutro_12
+  - first:
+      213: 6385233487489646740
+    second: jeff the killer neutro_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jeff the killer neutro_0
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 210
+        width: 39
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca88460e99f3565e0800000000000000
+      internalID: -1917056136249046868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_1
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 210
+        width: 39
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7761a8953d6d4a210800000000000000
+      internalID: 1343434792091915895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_2
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 210
+        width: 37
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0736856324f24eb80800000000000000
+      internalID: -8366510246321429648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_3
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 210
+        width: 38
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c68b3b8c34a52940800000000000000
+      internalID: 5270799518847960777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_4
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 210
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0766684370b369f40800000000000000
+      internalID: 5734836077634938480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_5
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 110
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cee2f81eccb9cadc0800000000000000
+      internalID: -3626352295680200980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_6
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 110
+        width: 37
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b47cd7472cc5dc1d0800000000000000
+      internalID: -3328902559309117621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_7
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 110
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7733e4292c398b970800000000000000
+      internalID: 8770922738191577975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_8
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 110
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e825d0fd6ce765230800000000000000
+      internalID: 3627225942504329870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_9
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 110
+        width: 38
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9137891a9cf04a9d0800000000000000
+      internalID: -2764066912624676071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_10
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 10
+        width: 37
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8e145065e05ac830800000000000000
+      internalID: 4092172157513375374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_11
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 10
+        width: 39
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83c197ff8dccb93e0800000000000000
+      internalID: -2045816373338629064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_12
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 10
+        width: 40
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f372f6f0f8b871450800000000000000
+      internalID: 6059465270205818687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jeff the killer neutro_13
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 10
+        width: 41
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 490cfb5c608ec9850800000000000000
+      internalID: 6385233487489646740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      jeff the killer neutro_0: -1917056136249046868
+      jeff the killer neutro_1: 1343434792091915895
+      jeff the killer neutro_10: 4092172157513375374
+      jeff the killer neutro_11: -2045816373338629064
+      jeff the killer neutro_12: 6059465270205818687
+      jeff the killer neutro_13: 6385233487489646740
+      jeff the killer neutro_2: -8366510246321429648
+      jeff the killer neutro_3: 5270799518847960777
+      jeff the killer neutro_4: 5734836077634938480
+      jeff the killer neutro_5: -3626352295680200980
+      jeff the killer neutro_6: -3328902559309117621
+      jeff the killer neutro_7: 8770922738191577975
+      jeff the killer neutro_8: 3627225942504329870
+      jeff the killer neutro_9: -2764066912624676071
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
