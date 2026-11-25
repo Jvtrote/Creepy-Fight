@@ -25,10 +25,10 @@ public class FighterController : MonoBehaviour
     [SerializeField] private string atk1Trigger = "Atk1";
     [SerializeField] private string atk2Trigger = "Atk2";
     [SerializeField] private string atk3Trigger = "Atk3";
-    [SerializeField] private float comboResetWindow = 0.85f;
+    [SerializeField] private float comboResetWindow = 1.2f;
     [SerializeField] private float hitboxStartDelay = 0.1f;
-    [SerializeField] private float hitboxActiveDuration = 0.2f;
-    [SerializeField] private float attackRecoveryTime = 0.25f;
+    [SerializeField] private float hitboxActiveDuration = 0.25f;
+    [SerializeField] private float attackRecoveryTime = 0.3f;
     [SerializeField] private float atk1Damage = 10f;
     [SerializeField] private float atk2Damage = 15f;
     [SerializeField] private float atk3Damage = 25f;
@@ -62,10 +62,10 @@ public class FighterController : MonoBehaviour
 
     void Awake()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (bodyCollider != null)
         {
@@ -84,8 +84,20 @@ public class FighterController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Já inicia virado para o oponente no primeiro frame
+        FlipFacingDirection();
+    }
+
     void Update()
     {
+        // Sempre mantém o lutador virado para o oponente (mesmo se ainda estiver se posicionando)
+        if (currentState != FighterState.Attacking && currentState != FighterState.Hitstun)
+        {
+            FlipFacingDirection();
+        }
+
         // Se estiver apanhando ou atacando, bloqueia movimentação livre
         if (currentState == FighterState.Hitstun || currentState == FighterState.Attacking)
             return;
@@ -94,7 +106,6 @@ public class FighterController : MonoBehaviour
         GetInputs();
         UpdateStateAndCollider();
         UpdateSpriteDirectly();
-        FlipFacingDirection();
         UpdateAnimatorParameters();
     }
 
@@ -105,7 +116,6 @@ public class FighterController : MonoBehaviour
 
         if (currentState == FighterState.Attacking)
         {
-            // Mantém velocidade horizontal zerada durante o golpe para não deslizar
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
             return;
         }
@@ -133,7 +143,6 @@ public class FighterController : MonoBehaviour
 
     private void StartComboAttack()
     {
-        // Reinicia o combo se passou do tempo limite ou se já completou o 3º golpe
         if (Time.time - lastAttackTime > comboResetWindow || comboStep >= 3)
         {
             comboStep = 0;
@@ -157,21 +166,20 @@ public class FighterController : MonoBehaviour
 
         if (anim != null)
         {
-            anim.SetBool("Andando", false);
+            if (HasAnimatorParameter("Andando", AnimatorControllerParameterType.Bool))
+                anim.SetBool("Andando", false);
 
-            if (step == 1 && !string.IsNullOrEmpty(atk1Trigger))
+            if (step == 1 && HasAnimatorParameter(atk1Trigger, AnimatorControllerParameterType.Trigger))
                 anim.SetTrigger(atk1Trigger);
-            else if (step == 2 && !string.IsNullOrEmpty(atk2Trigger))
+            else if (step == 2 && HasAnimatorParameter(atk2Trigger, AnimatorControllerParameterType.Trigger))
                 anim.SetTrigger(atk2Trigger);
-            else if (step >= 3 && !string.IsNullOrEmpty(atk3Trigger))
+            else if (step >= 3 && HasAnimatorParameter(atk3Trigger, AnimatorControllerParameterType.Trigger))
                 anim.SetTrigger(atk3Trigger);
         }
 
-        // Configura o dano correspondente ao golpe da sequência
-        AttackHitbox hitboxScript = null;
         if (attackHitbox != null)
         {
-            hitboxScript = attackHitbox.GetComponent<AttackHitbox>();
+            AttackHitbox hitboxScript = attackHitbox.GetComponent<AttackHitbox>();
             if (hitboxScript != null)
             {
                 float dmg = (step == 1) ? atk1Damage : (step == 2) ? atk2Damage : atk3Damage;
@@ -179,7 +187,6 @@ public class FighterController : MonoBehaviour
             }
         }
 
-        // Espera o golpe chegar no frame de impacto
         if (hitboxStartDelay > 0f)
         {
             yield return new WaitForSeconds(hitboxStartDelay);
@@ -209,6 +216,20 @@ public class FighterController : MonoBehaviour
         attackRoutine = null;
     }
 
+    private bool HasAnimatorParameter(string paramName, AnimatorControllerParameterType type)
+    {
+        if (anim == null || string.IsNullOrEmpty(paramName)) return false;
+
+        foreach (AnimatorControllerParameter param in anim.parameters)
+        {
+            if (param.name == paramName && param.type == type)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void Move()
     {
         if (isBlocking || (currentState == FighterState.Crouching && isGrounded))
@@ -219,16 +240,9 @@ public class FighterController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
 
-        if (anim != null)
+        if (anim != null && HasAnimatorParameter("Andando", AnimatorControllerParameterType.Bool))
         {
-            if (rb.linearVelocity.x != 0 && isGrounded)
-            {
-                anim.SetBool("Andando", true);
-            }
-            else
-            {
-                anim.SetBool("Andando", false);
-            }
+            anim.SetBool("Andando", rb.linearVelocity.x != 0 && isGrounded);
         }
     }
 
@@ -260,14 +274,19 @@ public class FighterController : MonoBehaviour
 
         CheckBlocking();
 
-        anim.SetBool("Pulando", !isGrounded);
-        anim.SetBool("Agachado", currentState == FighterState.Crouching && isGrounded);
-        anim.SetBool("Bloqueando", isBlocking);
+        if (HasAnimatorParameter("Pulando", AnimatorControllerParameterType.Bool))
+            anim.SetBool("Pulando", !isGrounded);
+
+        if (HasAnimatorParameter("Agachado", AnimatorControllerParameterType.Bool))
+            anim.SetBool("Agachado", currentState == FighterState.Crouching && isGrounded);
+
+        if (HasAnimatorParameter("Bloqueando", AnimatorControllerParameterType.Bool))
+            anim.SetBool("Bloqueando", isBlocking);
     }
 
     public void TriggerDamageResponse()
     {
-        if (anim != null)
+        if (anim != null && HasAnimatorParameter("Dano", AnimatorControllerParameterType.Trigger))
         {
             anim.SetTrigger("Dano");
         }
@@ -316,7 +335,6 @@ public class FighterController : MonoBehaviour
 
     private void UpdateSpriteDirectly()
     {
-        // Só força sprite manual quando não estiver atacando e não houver Animator ativo
         if (currentState == FighterState.Attacking || anim != null) return;
         if (spriteRenderer == null) return;
 
@@ -352,18 +370,11 @@ public class FighterController : MonoBehaviour
         if (opponent == null) return;
 
         bool shouldFaceLeft = opponent.position.x < transform.position.x;
+        float direction = shouldFaceLeft ? -1f : 1f;
         float absScaleX = Mathf.Abs(transform.localScale.x);
 
-        // Mantém sempre o mesmo módulo de escala (nunca encolhe nem estica)
-        transform.localScale = new Vector3(shouldFaceLeft ? -absScaleX : absScaleX, transform.localScale.y, transform.localScale.z);
-
-        // Garante que a hitbox acompanhe a frente do lutador
-        if (attackHitbox != null)
-        {
-            Vector3 hitboxPos = attackHitbox.transform.localPosition;
-            hitboxPos.x = Mathf.Abs(hitboxPos.x) * (shouldFaceLeft ? -1f : 1f);
-            attackHitbox.transform.localPosition = hitboxPos;
-        }
+        // Mantém o mesmo tamanho e espelha o objeto pai (e todos os filhos, incluindo a Hitbox)
+        transform.localScale = new Vector3(absScaleX * direction, transform.localScale.y, transform.localScale.z);
     }
 
     private void OnDrawGizmosSelected()
@@ -373,5 +384,10 @@ public class FighterController : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
+    }
+    public void SetOpponent(Transform newOpponent)
+    {
+        opponent = newOpponent;
+        FlipFacingDirection();
     }
 }

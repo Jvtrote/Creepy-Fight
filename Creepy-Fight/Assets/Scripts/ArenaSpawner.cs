@@ -27,11 +27,20 @@ public class ArenaSpawner : MonoBehaviour
         GameObject p1 = Instantiate(fighterPrefabs[p1Index], player1Spawn.position, Quaternion.identity);
         GameObject p2 = Instantiate(fighterPrefabs[p2Index], player2Spawn.position, Quaternion.identity);
 
-        // Liga o oponente ao Player 1 para ele virar automaticamente na direção certa
         FighterController p1Controller = p1.GetComponent<FighterController>();
+        FighterController p2Controller = p2.GetComponent<FighterController>();
+
+        // Liga os dois lutadores um ao outro e força a virada imediata
         if (p1Controller != null)
         {
             p1Controller.opponent = p2.transform;
+            p1Controller.SendMessage("FlipFacingDirection", SendMessageOptions.DontRequireReceiver);
+        }
+
+        if (p2Controller != null)
+        {
+            p2Controller.opponent = p1.transform;
+            p2Controller.SendMessage("FlipFacingDirection", SendMessageOptions.DontRequireReceiver);
         }
 
         // Conecta as barras de vida aos respectivos lutadores
@@ -39,10 +48,13 @@ public class ArenaSpawner : MonoBehaviour
         SetupHealth(p2, player2HealthSlider);
 
         // Desativa o controle manual do oponente para ele não andar junto com o Player 1
-        FighterController p2Controller = p2.GetComponent<FighterController>();
         if (p2Controller != null)
         {
             p2Controller.enabled = false;
+
+            // Mantém o oponente sempre olhando para o Player 1 mesmo com o controle desligado
+            AutoFaceTarget autoFace = p2.AddComponent<AutoFaceTarget>();
+            autoFace.target = p1.transform;
         }
 
         // Registra os dois lutadores no MatchManager para monitorar K.O. e fim de round
@@ -61,5 +73,20 @@ public class ArenaSpawner : MonoBehaviour
             slider.maxValue = health.maxHealth;
             slider.value = health.maxHealth;
         }
+    }
+}
+
+// Componente leve que mantém o oponente virado para o alvo enquanto está no modo treino/IA
+public class AutoFaceTarget : MonoBehaviour
+{
+    public Transform target;
+
+    void LateUpdate()
+    {
+        if (target == null) return;
+
+        bool shouldFaceLeft = target.position.x < transform.position.x;
+        float absScaleX = Mathf.Abs(transform.localScale.x);
+        transform.localScale = new Vector3(shouldFaceLeft ? -absScaleX : absScaleX, transform.localScale.y, transform.localScale.z);
     }
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 4}
   m_MinSize: {x: 875, y: 388}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 95
+  controlID: 103
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 93
+  controlID: 101
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 112}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 94
+  controlID: 102
   draggingID: 0
 --- !u!114 &9
 MonoBehaviour:
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 41
+  controlID: 40
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -727,15 +727,29 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: []
+      m_SelectedIDs:
+      - m_Data: 43716
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -37512
-      - m_Data: -35224
-      - m_Data: -20642
-      - m_Data: -1370
-      - m_Data: 43646
+      - m_Data: -50436
+      - m_Data: -49800
+      - m_Data: -49360
+      - m_Data: -49054
+      - m_Data: -47054
+      - m_Data: -45534
+      - m_Data: -45530
+      - m_Data: -45402
+      - m_Data: -45398
+      - m_Data: -44842
+      - m_Data: -44752
+      - m_Data: -44748
+      - m_Data: -43402
+      - m_Data: -43398
+      - m_Data: -42806
+      - m_Data: -41650
+      - m_Data: -40956
+      - m_Data: 57730
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1398,9 +1412,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 151.08238, y: 82.508575, z: -1.4113188}
+    m_Target: {x: 15.338315, y: 6.9151707, z: -0.19242163}
     speed: 2
-    m_Value: {x: -2.90715, y: -0.45421895, z: 0.012099474}
+    m_Value: {x: 15.338315, y: 6.9151707, z: -0.19242163}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1450,9 +1464,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 151.1326
+    m_Target: 29.242865
     speed: 2
-    m_Value: 2.9821985
+    m_Value: 29.242865
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1535,7 +1549,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - "Assets/anima\xE7\xF5es/jeff the killer"
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1545,22 +1559,22 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 45
   m_LastFolders:
-  - Assets/Prefabs
+  - "Assets/anima\xE7\xF5es/jeff the killer"
   m_LastFoldersGridSize: 45
   m_LastProjectPath: C:\Users\jvtro\OneDrive\Documentos\GitHub\Creepy-Fight\Creepy-Fight
   m_LockTracker:
     m_IsLocked: 0
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 110}
+    scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 43920
+    - m_Data: 54224
     m_LastClickedID:
-      m_Data: 43920
+      m_Data: 54224
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 43912
-    - m_Data: 43914
+    - m_Data: 49978
+    - m_Data: 55504
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1619,9 +1633,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: []
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs:
+    - m_Data: 43716
+    m_LastClickedInstanceID: 43716
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs:
     - m_Data: 49452
     - m_Data: 43408
