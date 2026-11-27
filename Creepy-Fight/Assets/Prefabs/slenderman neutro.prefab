@@ -293,7 +293,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &2634692336972259517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
   idleSprite: {fileID: 6961339127825708229, guid: fd4e0bed13f9a0c459e09dcd87c69b9f, type: 3}
   walkingSprite: {fileID: -2458980662951295774, guid: 6de472e5138dec04e8179fb0c45d412c, type: 3}
   moveSpeed: 7
-  jumpForce: 17
+  jumpForce: 14
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
