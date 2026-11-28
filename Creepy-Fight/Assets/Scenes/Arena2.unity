@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArenaSpawner
   fighterPrefabs:
-  - {fileID: 8662211879224066688, guid: 390b83a02cd35684faf295bae9d50ed4, type: 3}
+  - {fileID: 4956528316982430127, guid: 7d81fbe9a963803408d08dd762dfcf44, type: 3}
   - {fileID: 8662211879224066688, guid: 390b83a02cd35684faf295bae9d50ed4, type: 3}
   - {fileID: 4604626760175389197, guid: 3ab47e23a325fba4eb8ecd7c94fedc61, type: 3}
   - {fileID: 8662211879224066688, guid: 390b83a02cd35684faf295bae9d50ed4, type: 3}
